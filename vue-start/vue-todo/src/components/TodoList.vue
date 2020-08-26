@@ -1,10 +1,12 @@
 <template>
     <div>
         <ul>
-            <li v-for="todoItem in todoItems" v-bind:key="todoItem" class="shadow">
-                {{todoItem}}
-                <span class="removeBtn" >
-                     <button v-on:click="removeTodo" >제거</button>
+            <li v-for="(todoItem , index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+                <button v-on:click="toggleComplete(todoItem, index)" v-bind:class="{checkBtnCompleted: todoItem.completed}">지우기</button>
+
+                <span v-bind:class="{textCompleted : todoItem.completed}"> {{todoItem.item}}</span>
+                <span class="removeBtn">
+                     <button v-on:click="removeTodo(todoItem, index)">제거</button>
                 </span>
             </li>
         </ul>
@@ -17,21 +19,30 @@
         name: "TodoList",
         data: function () {
             return {
-                todoItems: []
+                todoItems: [],
             }
         },
         created: function () {
             if (localStorage.length > 0) {
                 for (let i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-                        this.todoItems.push(localStorage.key(i));
+                        this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+                        //this.todoItems.push(localStorage.key(i));
                     }
                 }
             }
         },
-        methods:{
-            removeTodo : function(){
-
+        methods: {
+            removeTodo: function (todoItem, index) {
+                console.log('remove items ', todoItem, index);
+                localStorage.removeItem(todoItem);
+                this.todoItems.splice(index, 1);
+            },
+            toggleComplete: function (todoItem , index) {
+                console.log(todoItem , index);
+                todoItem.completed = !todoItem.completed;
+                localStorage.removeItem(todoItem);
+                localStorage.setItem(todoItem.item ,JSON.stringify(todoItem));
             }
         }
     }

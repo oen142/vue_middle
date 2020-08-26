@@ -3,7 +3,7 @@
         <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
 
         <span class="addContainer">
-            <button v-on:click="addTodo" >추가</button>
+            <button v-on:click="addTodo">추가</button>
         </span>
     </div>
 </template>
@@ -18,12 +18,19 @@
                 newTodoItem: ""
             }
         },
-        methods:{
-            addTodo :function (){
-                localStorage.setItem(this.newTodoItem , this.newTodoItem);
-                this.clearInput();
+        methods: {
+            addTodo: function () {
+                if (this.newTodoItem !== '') {
+                    let obj = {
+                        completed: false,
+                        item: this.newTodoItem
+                    };
+                    localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                    this.clearInput();
+
+                }
             },
-            clearInput: function(){
+            clearInput: function () {
                 this.newTodoItem = "";
             }
         }
@@ -31,28 +38,32 @@
 </script>
 
 <style scoped>
-    input:focus{
+    input:focus {
         outline: none;
     }
+
     .inputBox {
         background: white;
         height: 50px;
         line-height: 50px;
         border-radius: 5px;
     }
-    .inputBox input{
+
+    .inputBox input {
         border-style: none;
         font-size: 0.9rem;
     }
-    .addContainer{
+
+    .addContainer {
         float: right;
-        background: linear-gradient(to right, #6478FB , #8763FB);
+        background: linear-gradient(to right, #6478FB, #8763FB);
         display: block;
         width: 3rem;
         border-radius: 0 5px 5px 0;
 
     }
-    .addBtn{
+
+    .addBtn {
         color: white;
         vertical-align: middle;
     }
