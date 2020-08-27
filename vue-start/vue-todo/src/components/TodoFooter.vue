@@ -11,7 +11,8 @@
         name: "TodoFooter",
         methods: {
             clearTodo : function(){
-                localStorage.clear();
+                console.log('emit');
+                this.$emit('clearAll');
 
             }
         }

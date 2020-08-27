@@ -1,15 +1,19 @@
 <template>
     <div>
-        <ul>
+
+        <transition-group name="list" tag="ul">
+
             <li v-for="(todoItem , index) in propsData" v-bind:key="todoItem.item" class="shadow">
-                <button v-on:click="toggleComplete(todoItem, index)" v-bind:class="{checkBtnCompleted: todoItem.completed}">지우기</button>
+                <button v-on:click="toggleComplete(todoItem, index)"
+                        v-bind:class="{checkBtnCompleted: todoItem.completed}">지우기
+                </button>
 
                 <span v-bind:class="{textCompleted : todoItem.completed}"> {{todoItem.item}}</span>
                 <span class="removeBtn">
                      <button v-on:click="removeTodo(todoItem, index)">제거</button>
                 </span>
             </li>
-        </ul>
+        </transition-group>
     </div>
 
 </template>
@@ -17,18 +21,17 @@
 <script>
     export default {
         name: "TodoList",
-        props:['propsData'],
+        props: ['propsData'],
         methods: {
             removeTodo: function (todoItem, index) {
-                console.log('remove items ', todoItem, index);
-                localStorage.removeItem(todoItem);
-                this.todoItems.splice(index, 1);
+
+                this.$emit('removeItem', todoItem, index);
+                console.log(todoItem);
+
             },
-            toggleComplete: function (todoItem , index) {
-                console.log(todoItem , index);
-                todoItem.completed = !todoItem.completed;
-                localStorage.removeItem(todoItem);
-                localStorage.setItem(todoItem.item ,JSON.stringify(todoItem));
+            toggleComplete: function (todoItem, index) {
+                console.log(todoItem, index);
+                this.$emit('toggleComplete', todoItem, index);
             }
         }
     }
@@ -73,5 +76,19 @@
         color: #de4343;
     }
 
+    /*
+    리스트 아이템 트랜지션 효과
+    */
+    .list-item {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(10px);
+    }
 
 </style>
