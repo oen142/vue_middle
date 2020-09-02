@@ -10,7 +10,7 @@
     export default {
         name: "TodoFooter",
         methods: {
-            clearTodo : function(){
+            clearTodo (){
                 console.log('emit');
                 this.$emit('clearAll');
 

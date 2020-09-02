@@ -122,3 +122,85 @@ function f(){
     }
 }
 ```
+
+
+## Arrow Function - 화살표 함수
+- 함수를 정의할때 function 이라는 키워드를 사용하지 않고 =>  대체
+- 흔히 사용하는 콜백 함수의 문법을 간결화 한다.
+
+```javascript
+var sum = function(a,b){
+    return a+b;
+};
+
+var sum = (a,b)=>{
+    return a+b;
+}
+
+sum (10 ,20);
+```
+
+
+- 사용 예시
+
+```javascript
+var arr = ["a", "b", "c"];
+arr.forEach(function(value){
+    console.log(value);
+});
+
+arr.forEach(value => console.log(value));
+
+```
+
+## Enhanced Object Literals - 향상된 객체 리터럴
+- 객체의 속성을 메서드로 사용할때 function 예약어를 생략하고 생성가능하다.
+```javascript
+var dictionary = {
+    words: 100,
+    lookup: function(){
+        console.log("find words");
+    },
+    lookup(){
+        console.log("find");
+    }   
+}
+```
+
+- 객체의 속성명과 값 명이 동일할때 축약가능
+```javascript
+var figures = 10;
+var dictionary = {
+    figures
+};
+```
+
+## Modules - 자바스크립트 모듈화 방법
+- 자바스크립트 모듈 로더 라이브러리 (AMD , Commons JS)기능을 js 언어 자체에서 지원
+- 호출되기 전 까지 코드 실행과 동작을 하지 않는 특징이 있다.
+```javascript
+// libs/math.js
+export funciton sum(x,y){
+    return x+y;
+}
+export var pi = 3.14;
+// main.js
+import {sum} from 'libs/math.js';
+sum(1,2);
+```
+
+- Vue.js에서 마주칠 `default` export
+```javascript
+//util.js
+export default function(x){
+    return console.log(x);
+}
+//main.js
+import  util from 'uilt.js';
+console.log(util);
+util("hi");
+//app.js
+import  log from 'util.js';
+console.log(log);
+log("hi");
+```

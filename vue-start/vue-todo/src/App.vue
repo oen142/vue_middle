@@ -19,20 +19,20 @@
     export default {
         name: "App",
         components: {
-            'TodoHeader': TodoHeader,
-            'TodoInput': TodoInput,
-            'TodoList': TodoList,
-            'TodoFooter': TodoFooter,
+             TodoHeader,
+             TodoInput,
+             TodoList,
+             TodoFooter,
 
         },
 
-        data: function () {
+        data() {
             return {
                 todoItems: []
 
             }
         },
-        created: function () {
+        created() {
             if (localStorage.length > 0) {
                 for (let i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
@@ -43,26 +43,26 @@
             }
         },
         methods:{
-            addOneItem: function(todoItem){
-                let obj = {
+            addOneItem(todoItem){
+                const obj = {
                     completed: false,
                     item: todoItem
                 };
                 localStorage.setItem(todoItem, JSON.stringify(obj));
                 this.todoItems.push(obj);
             },
-            removeOneItem: function(todoItem, index){
+            removeOneItem(todoItem, index){
                 localStorage.removeItem(todoItem);
                 this.todoItems.splice(index , 1);
                 console.log(todoItem , index);
             },
-            todoCompleteOneItem: function (todoItem , index){
+            todoCompleteOneItem(todoItem , index){
                 this.todoItems[index].completed = !this.todoItems[index].completed;
 
                 localStorage.removeItem(todoItem);
                 localStorage.setItem(todoItem.item ,JSON.stringify(todoItem));
             },
-            clearAllItems : function (){
+            clearAllItems(){
                 localStorage.clear();
                 this.todoItems = [];
             }
