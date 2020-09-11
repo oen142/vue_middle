@@ -3,7 +3,7 @@
 
         <transition-group name="list" tag="ul">
 
-            <li v-for="(todoItem , index) in propsData" v-bind:key="todoItem.item" class="shadow">
+            <li v-for="(todoItem , index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
                 <button v-on:click="toggleComplete(todoItem, index)"
                         v-bind:class="{checkBtnCompleted: todoItem.completed}">지우기
                 </button>
@@ -21,17 +21,18 @@
 <script>
     export default {
         name: "TodoList",
-        props: ['propsData'],
         methods: {
             removeTodo (todoItem, index) {
 
-                this.$emit('removeItem', todoItem, index);
+                //this.$emit('removeItem', todoItem, index);
+                this.$store.commit('removeOneItem' , {todoItem , index});
                 console.log(todoItem);
 
             },
             toggleComplete (todoItem, index) {
                 console.log(todoItem, index);
-                this.$emit('toggleComplete', todoItem, index);
+                this.$store.commit('todoCompleteOneItem' , {todoItem , index} )
+              //  this.$emit('toggleComplete', todoItem, index);
             }
         }
     }
